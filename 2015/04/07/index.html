@@ -1,61 +1,142 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>This Meeting Cost Us</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/spacelab/bootstrap.min.css">
+  <title>Pomodoro timer</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/lumen/bootstrap.min.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      text-align: center;
+    }
+    .row {
+      padding: 8px;
+    }
+    a.link {
+      cursor: pointer;
+    }
+    .timer {
+      position: relative;
+      display: inline-block;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 8px solid #ffa494;
+      padding: 0;
+      margin: 0;
+    }
+    .timer h1 {
+      padding-top: 60px;
+      font-size: 75px;
+    }
+    .timer .pointer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      transition: transform 500ms;
+      transform: rotate(0deg);
+    }
+    .timer .pointer:before {
+      content: '';
+      border-width: 16px;
+      border-color: transparent;
+      border-bottom-color: #ff6347;
+      border-style: solid;
+      width: 0;
+      height: 0;
+    }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <h1>thismeetingcost.us</h1>
-    <form>
-      <div class="form-group">
-        <label>Number of people in the room</label>
-          <input type="number" id="attendance" class="form-control">
-        </div>
-      <div class="form-group">
-        <label>Average salary in the room</label>
-        <div class="input-group">
-          <span class="input-group-addon">$</span>
-          <input type="number" id="salary" class="form-control">
-        </div>
+<body class="container">
+  <h1>Pomodoro timer</h1>
+  <div class="row">
+    <div class="timer">
+      <div class="pointer">
       </div>
-      <button type="button" id="begin" class="btn btn-primary btn-lg btn-block">...</button>
-    </form>
-    <h1 id="cost"></h1>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <h1 id="time">--:--</h1>
+    </div>
   </div>
-<script>
+  <div class="row">
+    <a id="control-btn" class="btn btn-lg btn-default">...</a>
+  </div>
+  <div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" data-dismiss="modal" aria-label="Close" class="close"><span>&times;</span></button><h4 class="modal-title">Notifications</h4></div><div class="modal-body"><p><a id="enable-notifications" class="link">Click here</a>  to enable desktop notifications.</p><p>Without desktop notifications, you won't know
+when your pomodoros have ended!</p></div><div class="modal-footer"><a data-dismiss="modal" class="btn btn-primary">Done</a></div></div></div></div><script>
 $(function(){
-  var peopleInRoom;
-  var salaryInRoom, salaryPerSecond;
-  var meetingStartedAt;
-  var meetingEndedAt;
+  var time = 0;
+  var started;
+  var running = false;
 
-  setInterval(update,200);
+  var DURATION = 25;
+
+  function pad(n){
+    n = Math.floor(n);
+    return (n<10? '0'+n : ''+n);
+  }
+
   function update(){
-    var seconds, endTime;
-    peopleInRoom = +$('#attendance').val();
-    salaryInRoom = +$('#salary').val();
-    if(peopleInRoom && salaryInRoom && meetingStartedAt){
-      salaryPerSecond = salaryInRoom/52/40/3600;
-      endTime = meetingEndedAt || +new Date();
-      $('#cost').text('$'+(Math.round(peopleInRoom*salaryPerSecond*(endTime - meetingStartedAt)/10)/100));
+    if(!running){
+      $('.pointer').css('transform','rotate(0deg)');
+      $('#time').text('0:00');
+      return;
+    }
+    var elapsed = +(new Date() - started)/1e3;
+    var minutes = Math.floor(elapsed / 60);
+    var seconds = elapsed % 60;
+    $('#time').text(minutes + ':' + pad(seconds));
+    $('.pointer').css('transform','rotate('+(elapsed/(DURATION*60)*360)+'deg)');
+
+    if((elapsed/60) >= DURATION) {
+      stop();
+      var notification = new Notification("Pomodoro", {
+          body: 'Your pomodoro is done!'
+      });
     }
   }
-  function begin(){
-    meetingStartedAt = +new Date();
-    meetingEndedAt = null;
-    $('#begin').text('End meeting').off('click').on('click',end);
-    console.log(peopleInRoom, salaryInRoom, meetingStartedAt);
+
+  setInterval(update, 250);
+
+  function start(){
+    started = +new Date();
+    running = true;
+    $('#control-btn')
+      .removeClass('btn-success')
+      .addClass('btn-danger')
+      .off('click')
+      .on('click', stop)
+      .text('Stop');
   }
-  function end(){
-    meetingEndedAt = +new Date();
-    $('#begin').text('Begin meeting').off('click').on('click', begin);
+
+  function stop(){
+    running = false;
+    $('#control-btn')
+      .addClass('btn-success')
+      .removeClass('btn-danger')
+      .off('click')
+      .on('click', start)
+      .text('Start');
   }
-  $('#begin').text('Begin meeting').off('click').on('click', begin);
+
+  stop();
+
+  $('#enable-notifications').click(function(){
+    Notification.requestPermission(function (permission) {
+      // If the user is okay, let's create a notification
+      if (permission === "granted") {
+
+      }
+    });
+  });
+  
+  if(Notification.permission !== 'granted') {
+    $('.modal').modal();
+  }
 });
 </script>
-</body>
-</html>
+
+</body></html>

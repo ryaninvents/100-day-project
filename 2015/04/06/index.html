@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>This Meeting Cost Us</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/spacelab/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>thismeetingcost.us</h1>
+    <form>
+      <div class="form-group">
+        <label>Number of people in the room</label>
+          <input type="number" id="attendance" class="form-control">
+        </div>
+      <div class="form-group">
+        <label>Average salary in the room</label>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input type="number" id="salary" class="form-control">
+        </div>      </div>
+      <button type="button" id="begin" class="btn btn-primary btn-lg btn-block">...</button>
+    </form>
+    <h1 id="cost"></h1>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </div>
+<script>
+$(function(){
+  var peopleInRoom;
+  var salaryInRoom, salaryPerSecond;
+  var meetingStartedAt;
+  var meetingEndedAt;
+
+  setInterval(update,200);
+  function update(){
+    var seconds, endTime;
+    peopleInRoom = +$('#attendance').val();
+    salaryInRoom = +$('#salary').val();
+    if(peopleInRoom && salaryInRoom && meetingStartedAt){
+      salaryPerSecond = salaryInRoom/52/40/3600;
+      endTime = meetingEndedAt || +new Date();
+      $('#cost').text('$'+(Math.round(peopleInRoom*salaryPerSecond*(endTime - meetingStartedAt)/10)/100));
+    }
+  }
+  function begin(){
+    meetingStartedAt = +new Date();
+    meetingEndedAt = null;
+    $('#begin').text('End meeting').off('click').on('click',end);
+    console.log(peopleInRoom, salaryInRoom, meetingStartedAt);
+  }
+  function end(){
+    meetingEndedAt = +new Date();
+    $('#begin').text('Begin meeting').off('click').on('click', begin);
+  }
+  $('#begin').text('Begin meeting').off('click').on('click', begin);
+});
+</script>
+</body>
+</html>
