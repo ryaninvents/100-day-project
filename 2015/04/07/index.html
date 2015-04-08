@@ -87,8 +87,9 @@ $(function(){
       return;
     }
     var elapsed = +(new Date() - started)/1e3;
-    var minutes = Math.floor(elapsed / 60);
-    var seconds = elapsed % 60;
+    var remaining = (DURATION*60) - elapsed;
+    var minutes = Math.floor(remaining / 60);
+    var seconds = remaining % 60;
     $('#time').text(minutes + ':' + pad(seconds));
     $('.pointer').css('transform','rotate('+(elapsed/(DURATION*60)*360)+'deg)');
 
