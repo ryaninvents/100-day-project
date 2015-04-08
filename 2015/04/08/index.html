@@ -1,88 +1,222 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Checkers</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/lumen/bootstrap.min.css">
-  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.6.0/lodash.min.js"></script>
-  <style>
-    body {
-      text-align: center;
-    }
-    .checkerboard-frame {
-      text-align: center;
-      display: inline-block;
-      padding-top: 64px;
-    }
-    .checkerboard {
-      box-shadow: 0px 4px 5px 1px black;
-      max-width: -moz-max-content;
-      max-width: -webkit-max-content;
-      max-width: max-content;
-      position: relative;
-    }
-    .checkerboard-row {
-      padding: 0;
-      margin: 0;
-      display: block;
-      line-height: 0;
-      font-size: 48px;
-      max-width: -moz-max-content;
-      max-width: -webkit-max-content;
-      max-width: max-content;
-    }
-    .checkerboard-frame.pick-sq .sq:hover {
-      box-shadow: 0px 0px 6px 3px cyan, inset 0px 0px 6px 3px cyan;
-      z-index: 2;
-      border-radius: 3px;
-    }
-
-    .checkerboard.pick-sq .sq {
-      cursor: pointer;
-    }
-    .sq {
-      padding: 0;
-      margin: 0;
-      width: 1em;
+  <head>
+    <script src="http://static.jsbin.com/js/vendor/traceur.js"></script>
+    <script src="https://rawgit.com/lodash/lodash/3.0.1/lodash.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bacon.js/0.7.53/Bacon.min.js"></script>
+    <meta charset="utf-8">
+    <title>Blood caffeine calc</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/spacelab/bootstrap.min.css">
+    <style>
+    div.bar {
+      background-color: steelblue;
       height: 1em;
-      display: inline-block;
-      z-index: 1;
-      position: relative;
-      border-radius: 0px;
-      transition: box-shadow 200ms, border-radius 200ms;
-    }
-    .checkerboard-row:nth-child(even) .sq:nth-child(even),
-    .checkerboard-row:nth-child(odd) .sq:nth-child(odd) {
-      background-color: #ff6259;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      overflow-x: visible;
     }
 
-    .checkerboard-row:nth-child(odd) .sq:nth-child(even),
-    .checkerboard-row:nth-child(even) .sq:nth-child(odd) {
-      background-color: #333;
+    body {
+      font: 10px sans-serif;
     }
-  </style>
-</head>
-<body class="container">
-  <div class="checkerboard-frame">
-    <div class="checkerboard" id="checkerboard">
-    </div>
-  </div>
 
-  <script>
-    $(function(){
-      var $board = $('#checkerboard');
-      $board.append(_.range(8).map(function(){
-        var $row = $('<div>', {class: 'checkerboard-row'});
-        $row.append(_.range(8).map(function(){
-          var $sq = $('<div>', {class: 'sq'});
-          return $sq;
-        }));
-        return $row;
-      }));
-    });
-  </script>
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
 
-</body></html>
+    .x.axis path {
+      display: none;
+    }
+
+    .line {
+      fill: none;
+      stroke: chocolate;
+      stroke-width: 1.5px;
+    }
+
+    #graph {
+      width: 100%;
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body class="container">
+    <h1>Blood caffeine concentration</h1>
+    <form>
+      <div class="form-group">
+        <label>Amount of caffeine</label>
+        <div class="input-group">
+          <input type="number" value="80" id="dose" class="form-control" min=1>
+          <div class="input-group-addon">milligrams</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <div class="input-group">
+          <input type="number" value="10" id="duration" class="form-control" min=1>
+          <div class="input-group-addon">minutes</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Minutes ago</label>
+        <div class="input-group">
+          <input type="number" value="5" id="minutes-ago" class="form-control" min=0>
+          <div class="input-group-addon">minutes ago</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Body mass</label>
+        <div class="input-group">
+          <input type="number" value="100" id="mass" class="form-control" min=1>
+          <div class="input-group-addon">kilograms</div>
+        </div>
+      </div>
+    </form>
+    <h3></h3>
+    <div id="graph"></div>
+    <script>
+    window.$(function () {
+      var Bacon = window.Bacon,
+          _ = window._,
+          d3 = window.d3;
+
+      var $dose = $('#dose'),
+          $duration = $('#duration'),
+          $mass = $('#mass'),
+          $timeAgo = $('#minutes-ago');
+
+      function valProp($el) {
+          return $el.asEventStream('change').merge($el.asEventStream('keyup')).merge(Bacon.once()).map(function () {
+              return +$el.val();
+          }).toProperty();
+      }
+
+      var dose = valProp($dose);
+      var duration = valProp($duration).map(function (d) {
+          return d * 60000;
+      });
+      var timeAgo = valProp($timeAgo).map(function (d) {
+          return d * 60000;
+      });
+      var mass = valProp($mass);
+
+      var input = Bacon.combineTemplate({
+          dose: dose,
+          duration: duration,
+          mass: mass,
+          timeAgo: timeAgo
+      });
+
+      function calcCaffeine(input) {
+
+          // Half-life of caffeine in the body
+          var λ = 5 * 60 * 60000;
+
+          // Absorption coefficient
+          var α = 1 * 60 * 60000;
+
+          // Liters of blood per kg of mass in the typical human
+          var L = 0.007;
+
+          // Convenience constants
+          var k1 = -Math.log(2) / λ;
+          var k2 = Math.log(1 / 20) / α;
+
+          // User input
+          var M = input.mass;
+          var A = input.dose / input.duration;
+
+          return function (t) {
+
+              // Expression in brackets
+              function inBrackets(u) {
+                  return Math.exp((k1 + k2) * (t - u)) / (k1 + k2) - Math.exp(k1 * (t - u)) / k1;
+              }
+
+              return A / (M * L) * (inBrackets(input.duration - input.timeAgo) - inBrackets(-input.timeAgo));
+          };
+      }
+
+      var amount = input.map(function (input) {
+          return Math.max(calcCaffeine(input)(0), 0);
+      });
+
+      amount.map(function (a) {
+          return 'Current concentration: ' + Math.round(a) + ' mg/dL';
+      }).assign($('h3'), 'text');
+
+      var graphData = input.map(function (input) {
+          var caf = calcCaffeine(input);
+          var x = _.range(-input.timeAgo / 60000, 480).map(function (n) {
+              return n * 60000;
+          });
+          return x.map(function (t) {
+              return { time: t, amount: caf(t) };
+          }).filter(function(i){
+            return i.amount >= 0;
+          });
+      });
+
+      var margin = { top: 20, right: 20, bottom: 30, left: 50 },
+          width = 960 - margin.left - margin.right,
+          height = 500 - margin.top - margin.bottom;
+
+      var x = d3.time.scale().range([0, width]);
+
+      var y = d3.scale.linear().range([height, 0]);
+
+      var xAxis = d3.svg.axis().scale(x).orient('bottom');
+
+      var yAxis = d3.svg.axis().scale(y).orient('left');
+
+      var line = d3.svg.line().x(function (d) {
+          return x(d.time);
+      }).y(function (d) {
+          return y(d.amount);
+      });
+
+      var svg = d3.select('#graph').append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      var $xAxis, $yAxis, $data;
+
+      $xAxis = svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')');
+
+      $yAxis = svg.append('g').attr('class', 'y axis').call(yAxis);
+
+      $xAxis.append('text').attr('x', width).attr('dy', '-.71em').style('text-anchor', 'end').text('Time of day');
+
+      $yAxis.append('text').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text('Concentration (mg/dL)');
+
+      $data = svg.append('path').attr('class', 'line');
+
+      graphData.onValue(function (data) {
+
+          data.forEach(function (d) {
+              d.time = +new Date(+new Date() + d.time);
+              d.amount = +d.amount;
+          });
+
+          x.domain(d3.extent(data, function (d) {
+              return d.time;
+          }));
+        var yDomain = d3.extent(data, function (d) {
+              return d.amount;
+          });
+        yDomain[0] = 0;
+          y.domain(yDomain);
+
+          svg.select('.x.axis').call(xAxis);
+
+          svg.select('.y.axis').call(yAxis);
+
+          $data.datum(data).attr('class', 'line').attr('d', line);
+      });
+  });
+    </script>
+  </body>
+</html>
