@@ -83,7 +83,7 @@ $(function(){
   function update(){
     if(!running){
       $('.pointer').css('transform','rotate(0deg)');
-      $('#time').text('0:00');
+      $('#time').text(DURATION+':00');
       return;
     }
     var elapsed = +(new Date() - started)/1e3;
