@@ -41,12 +41,21 @@
       width: 100%;
       text-align: center;
     }
+
+    .y.axis .tick {
+      display: none;
+    }
     </style>
   </head>
   <body class="container" style="max-width: 650px; margin: auto;">
     <h1>Caffeine logger</h1>
     <div id="add-log-entry" class="well"></div>
     <div id="chart" style="width:100%;text-align:center;margin: 0; padding: 0;"></div>
+    <p><em>
+      Note: the chart has no ticks on the y-axis because the program doesn't take into account your
+      body weight. The image is correct to a scale factor, but without your body weight I have no
+      way of telling you what that scale factor is.
+    </em></p>
     <script src="calc-caffeine.js"></script>
     <script src="add-log-entry.js"></script>
     <script src="coffee-chart.js"></script>
