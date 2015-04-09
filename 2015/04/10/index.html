@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../../../lib/lodash/lodash.js"></script>
+    <script src="../../../lib/jquery/dist/jquery.js"></script>
+    <script src="../../../lib/d3/d3.js"></script>
+    <script src="../../../lib/bacon/dist/Bacon.js"></script>
+    <script src="../../../lib/pouchdb/dist/pouchdb.js"></script>
+    <script src="../../../lib/EventsBin/index.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blood caffeine calc</title>
+    <link rel="stylesheet" href="../../../lib/bootswatch/spacelab/bootstrap.css">
+    <style>
+    div.bar {
+      background-color: steelblue;
+      height: 1em;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      overflow-x: visible;
+    }
+
+    body {
+      font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .line {
+      fill: none;
+      stroke: chocolate;
+      stroke-width: 1.5px;
+    }
+
+    #graph {
+      width: 100%;
+      text-align: center;
+    }
+
+    .y.axis .tick {
+      display: none;
+    }
+    </style>
+  </head>
+  <body class="container" style="max-width: 650px; margin: auto;">
+    <h1>Caffeine logger</h1>
+    <div id="add-log-entry" class="well"></div>
+    <div id="chart" style="width:100%;text-align:center;margin: 0; padding: 0;"></div>
+    <p><em>
+      Note: the chart has no ticks on the y-axis because the program doesn't take into account your
+      body weight. The image is correct to a scale factor, but without your body weight I have no
+      way of telling you what that scale factor is.
+    </em></p>
+    <script src="../09/calc-caffeine.js"></script>
+    <script src="../09/add-log-entry.js"></script>
+    <script src="../09/coffee-chart.js"></script>
+    <script src="../09/index.js"></script>
+  </body>
+</html>
