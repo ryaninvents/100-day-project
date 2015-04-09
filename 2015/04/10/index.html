@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../../../lib/lodash/lodash.js"></script>
+    <script src="../../../lib/jquery/dist/jquery.js"></script>
+    <script src="../../../lib/d3/d3.js"></script>
+    <script src="../../../lib/bacon/dist/Bacon.js"></script>
+    <script src="../../../lib/pouchdb/dist/pouchdb.js"></script>
+    <script src="../../../lib/EventsBin/index.js"></script>
+    <meta charset="utf-8">
+    <title>Blood caffeine calc</title>
+    <link rel="stylesheet" href="../../../lib/bootswatch/spacelab/bootstrap.css">
+    <style>
+    div.bar {
+      background-color: steelblue;
+      height: 1em;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      overflow-x: visible;
+    }
+
+    body {
+      font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+      display: none;
+    }
+
+    .line {
+      fill: none;
+      stroke: chocolate;
+      stroke-width: 1.5px;
+    }
+
+    #graph {
+      width: 100%;
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body class="container">
+    <h1>Blood caffeine concentration</h1>
+    <form>
+      <div class="form-group">
+        <label>Amount of caffeine</label>
+        <div class="input-group">
+          <input type="number" value="80" id="dose" class="form-control" min=1>
+          <div class="input-group-addon">milligrams</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <div class="input-group">
+          <input type="number" value="10" id="duration" class="form-control" min=1>
+          <div class="input-group-addon">minutes</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Minutes ago</label>
+        <div class="input-group">
+          <input type="number" value="5" id="minutes-ago" class="form-control" min=0>
+          <div class="input-group-addon">minutes ago</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Body mass</label>
+        <div class="input-group">
+          <input type="number" value="100" id="mass" class="form-control" min=1>
+          <div class="input-group-addon">kilograms</div>
+        </div>
+      </div>
+    </form>
+    <h3></h3>
+    <div id="graph"></div>
+    <script src="index.js"></script>
+  </body>
+</html>

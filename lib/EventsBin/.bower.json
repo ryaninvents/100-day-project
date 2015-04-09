@@ -1,0 +1,12 @@
+{
+  "name": "EventsBin",
+  "_cacheHeaders": {
+    "Last-Modified": "Wed, 08 Apr 2015 21:03:51 GMT",
+    "Content-Length": "1966",
+    "Content-Type": "application/javascript; charset=utf-8"
+  },
+  "main": "index.js",
+  "_source": "http://ryan.muller.io/events-bin/EventsBin.js",
+  "_target": "*",
+  "_originalSource": "http://ryan.muller.io/events-bin/EventsBin.js"
+}
