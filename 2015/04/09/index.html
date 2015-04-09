@@ -1,88 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Checkers</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/lumen/bootstrap.min.css">
-  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.6.0/lodash.min.js"></script>
-  <style>
-    body {
-      text-align: center;
-    }
-    .checkerboard-frame {
-      text-align: center;
-      display: inline-block;
-      padding-top: 64px;
-    }
-    .checkerboard {
-      box-shadow: 0px 4px 5px 1px black;
-      max-width: -moz-max-content;
-      max-width: -webkit-max-content;
-      max-width: max-content;
-      position: relative;
-    }
-    .checkerboard-row {
-      padding: 0;
-      margin: 0;
-      display: block;
-      line-height: 0;
-      font-size: 48px;
-      max-width: -moz-max-content;
-      max-width: -webkit-max-content;
-      max-width: max-content;
-    }
-    .checkerboard-frame.pick-sq .sq:hover {
-      box-shadow: 0px 0px 6px 3px cyan, inset 0px 0px 6px 3px cyan;
-      z-index: 2;
-      border-radius: 3px;
-    }
-
-    .checkerboard.pick-sq .sq {
-      cursor: pointer;
-    }
-    .sq {
-      padding: 0;
-      margin: 0;
-      width: 1em;
+  <head>
+    <script src="../../../lib/lodash/lodash.js"></script>
+    <script src="../../../lib/jquery/dist/jquery.js"></script>
+    <script src="../../../lib/d3/d3.js"></script>
+    <script src="../../../lib/bacon/dist/Bacon.js"></script>
+    <script src="../../../lib/pouchdb/dist/pouchdb.js"></script>
+    <script src="../../../lib/EventsBin/index.js"></script>
+    <meta charset="utf-8">
+    <title>Blood caffeine calc</title>
+    <link rel="stylesheet" href="../../../lib/bootswatch/spacelab/bootstrap.css">
+    <style>
+    div.bar {
+      background-color: steelblue;
       height: 1em;
-      display: inline-block;
-      z-index: 1;
-      position: relative;
-      border-radius: 0px;
-      transition: box-shadow 200ms, border-radius 200ms;
-    }
-    .checkerboard-row:nth-child(even) .sq:nth-child(even),
-    .checkerboard-row:nth-child(odd) .sq:nth-child(odd) {
-      background-color: #ff6259;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      overflow-x: visible;
     }
 
-    .checkerboard-row:nth-child(odd) .sq:nth-child(even),
-    .checkerboard-row:nth-child(even) .sq:nth-child(odd) {
-      background-color: #333;
+    body {
+      font: 10px sans-serif;
     }
-  </style>
-</head>
-<body class="container">
-  <div class="checkerboard-frame">
-    <div class="checkerboard" id="checkerboard">
-    </div>
-  </div>
 
-  <script>
-    $(function(){
-      var $board = $('#checkerboard');
-      $board.append(_.range(8).map(function(){
-        var $row = $('<div>', {class: 'checkerboard-row'});
-        $row.append(_.range(8).map(function(){
-          var $sq = $('<div>', {class: 'sq'});
-          return $sq;
-        }));
-        return $row;
-      }));
-    });
-  </script>
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
 
-</body></html>
+    .line {
+      fill: none;
+      stroke: chocolate;
+      stroke-width: 1.5px;
+    }
+
+    #graph {
+      width: 100%;
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body class="container" style="max-width: 600px; margin: auto;">
+    <h1>Caffeine logger</h1>
+    <div id="add-log-entry" class="well"></div>
+    <div id="chart" style="width:100%;text-align:center;margin: 0; padding: 0;"></div>
+    <script src="calc-caffeine.js"></script>
+    <script src="add-log-entry.js"></script>
+    <script src="coffee-chart.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -12,9 +12,12 @@
     <label>Caffeine</label>
     <input class="form-control" type="text" data-field="caffeine" disabled>
   </div>
-  <div class="form-group pull-right">
-    <!--a class="btn btn-default" data-action="cancel">Cancel</a-->
-    <a class="btn btn-success" data-action="add">Add to log</a>
+  <div class="form-group">
+    &nbsp;
+    <div class="pull-right">
+      <!--a class="btn btn-default" data-action="cancel">Cancel</a-->
+      <a class="btn btn-success" data-action="add">Add to log</a>
+    </div>
   </div>
   <!--div class="form-group">
     <a class="btn btn-block btn-default">Add new beverage or size</a>
