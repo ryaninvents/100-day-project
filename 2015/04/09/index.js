@@ -8,7 +8,7 @@ window.$(function () {
       $mass = $('#mass'),
       $timeAgo = $('#minutes-ago');
 
-  var COUCH_URL = "caffeine-test-1";
+  var COUCH_URL = "caffeine";
   var db = new EventsBin(COUCH_URL);
 
   var publishBus = new Bacon.Bus();
