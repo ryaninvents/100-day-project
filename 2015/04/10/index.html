@@ -42,42 +42,13 @@
     }
     </style>
   </head>
-  <body class="container">
-    <h1>Blood caffeine concentration</h1>
-    <form>
-      <div class="form-group">
-        <label>Amount of caffeine</label>
-        <div class="input-group">
-          <input type="number" value="80" id="dose" class="form-control" min=1>
-          <div class="input-group-addon">milligrams</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Duration</label>
-        <div class="input-group">
-          <input type="number" value="10" id="duration" class="form-control" min=1>
-          <div class="input-group-addon">minutes</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Minutes ago</label>
-        <div class="input-group">
-          <input type="number" value="5" id="minutes-ago" class="form-control" min=0>
-          <div class="input-group-addon">minutes ago</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Body mass</label>
-        <div class="input-group">
-          <input type="number" value="100" id="mass" class="form-control" min=1>
-          <div class="input-group-addon">kilograms</div>
-        </div>
-      </div>
-    </form>
+  <body class="container" style="max-width: 600px; margin: auto;">
+    <h1>Caffeine logger</h1>
     <div id="add-log-entry"></div>
-    <h3></h3>
-    <div id="graph"></div>
+    <div id="chart" style="width:100%;text-align:center;margin: 0; padding: 0;"></div>
+    <script src="calc-caffeine.js"></script>
     <script src="add-log-entry.js"></script>
+    <script src="coffee-chart.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

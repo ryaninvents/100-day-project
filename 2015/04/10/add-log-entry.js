@@ -5,7 +5,7 @@ $.fn.mkAddLogEntry = function(consumables){
     $this.html(data);
 
     var $cancelButton = $this.find('#btn-cancel'),
-        $addButton = $this.find('#btn-add'),
+        $addButton = $this.find('[data-action=add]'),
         $beverage = $this.find('[data-field=beverage]'),
         $size = $this.find('[data-field=size]'),
         $caf = $this.find('[data-field=caffeine]');
@@ -59,6 +59,8 @@ $.fn.mkAddLogEntry = function(consumables){
         return size.name === x.size;
       })[0];
       return size ? size.caffeine : '';
+    }).map(function(n){
+      return n+' mg';
     }).assign($caf, 'val');
 
     formData.sampledBy($addButton.asEventStream('click'))
