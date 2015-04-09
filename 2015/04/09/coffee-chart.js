@@ -42,7 +42,7 @@ $.fn.mkCoffeeChart = function(opts){
   });
 
   var margin = { top: 20, right: 20, bottom: 30, left: 30 },
-      width = 600 - margin.left - margin.right,
+      width = $('body').innerWidth() - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
   var x = d3.time.scale().range([0, width]);
