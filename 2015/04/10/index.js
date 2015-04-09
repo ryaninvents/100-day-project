@@ -21,26 +21,67 @@ window.$(function () {
     return events;
   }).flatMap(Bacon.fromArray);
 
+  var STARTER_DB = ([
+    {
+      name: 'coffee',
+      sizes: [
+        {
+          name: 'medium',
+          caffeine: 80
+        }
+      ]
+    },
+    {
+      name: 'espresso',
+      sizes: [
+        {
+          name: 'single',
+          caffeine: 64
+        }
+      ]
+    }
+  ]).map(function(item){
+    var meta = {
+      class: 'ConsumableRecognized'
+    };
+    return {
+      _id: item.name,
+      meta: meta,
+      data: item
+    };
+  });
+
   var consumables = events.filter(function(ev){
     return _.contains(['ConsumableRecognized', 'ConsumableUpdated'], (ev.meta && ev.meta.class));
-  }).map(function(event){
+  }).merge(Bacon.fromArray(STARTER_DB)).map(function(event){
     console.log(event);
     var x = {};
     x[event._id] = event;
     return x;
-  }).reduce([], function(a, b){
+  }).scan([], function(a, b){
     var x = _.clone(a);
     _.values(b).forEach(function(ev){
       switch(ev.meta.class){
         case 'ConsumableRecognized':
+          x.push(ev);
+          break;
         case 'ConsumableUpdated':
+          var update = ev;
+          var event = _.where(x, {_id: ev.target});
+          event.data = _.defaults(update.data, event.data);
           break;
       }
     });
     return x;
   });
 
-  
+  consumables.log('>>.');
+
+  $('#add-log-entry').mkAddLogEntry(consumables);
+
+  $('#add-log-entry').on('intent:add-entry', function(e, data){
+    console.log('Adding log entry', data.beverage, data.size);
+  });
 
   function valProp($el) {
     return $el.asEventStream('change').merge($el.asEventStream('keyup')).merge(Bacon.once()).map(function () {
