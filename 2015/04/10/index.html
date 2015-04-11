@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../../../lib/lodash/lodash.js"></script>
+    <script src="../../../lib/jquery/dist/jquery.js"></script>
+    <script src="../../../lib/bacon/dist/Bacon.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hourglass</title>
+    <link rel="stylesheet" href="../../../lib/bootswatch/spacelab/bootstrap.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+    body {
+      text-align: center;
+      max-width: 650px;
+      margin: auto;
+    }
+      .hourglass {
+        background-color: #dcdcdc;
+        transform: scaleY(1.5);
+        margin-top: 60px;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 60px;
+      }
+      .hourglass, .hourglass:before, .hourglass:after {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+      }
+      .hourglass {
+        border-top: 5px solid #7C5C28;
+        border-bottom: 5px solid #7C5C28;
+        border-radius: 5px;
+        box-shadow: 8px 0px 16px 0px white inset, -8px 0px 16px -8px rgba(0,0,0,0.4) inset;
+      }
+      .hourglass:before, .hourglass:after {
+        content: '';
+        border-radius: 12px;
+        background-color: white;
+        position: absolute;
+      }
+      .hourglass:before {
+        transform: translateX(-100px) translateX(-125px) scale(0.9, 0.7) rotate(45deg) ;
+        box-shadow: 8px -8px 20px rgba(255,255,255,0.7);
+        z-index: 10;
+      }
+      .hourglass:after {
+        transform: translateX(-100px) translateX(125px) scale(0.9, 0.7) rotate(45deg) ;
+        box-shadow: -8px 8px 20px rgba(0,0,0,0.2);
+        z-index: 9;
+      }
+      .sand, .bottom.sand:after, .flipping.hourglass .top.sand:after{
+        background-color: #EAC68B;
+        position: absolute;
+      }
+      .sand {
+        left: 0;
+        right: 0;
+      }
+      .bottom.sand:after, .flipping.hourglass .top.sand:after {
+        width: 50px;
+        height: 50px;
+        content: '';
+        transform: translate(-25px,-25px) scale(2.8, 0.4) rotate(45deg);
+      }
+      .top.sand {
+        top: 10%;
+        bottom: 48%;
+      }
+      .bottom.sand {
+        top: 90%;
+        bottom: 0;
+      }
+      .falling.sand {
+        top: 50%;
+        bottom: 0;
+        left: 49%;
+        right: 49%;
+      }
+    </style>
+  </head>
+  <body class="container">
+    <h1>Hourglass</h1>
+    <div id="hourglass" class="hourglass">
+      <div class="top sand"></div>
+      <div class="falling sand"></div>
+      <div class="bottom sand"></div>
+    </div>
+    <p id="click-here-description">
+      <a id="enable" style="cursor:pointer;">Click here</a> to enable desktop notifications.
+    </p>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="duration" class="col-sm-3 control-label">Duration</label>
+        <div class=" col-sm-9">
+        <div class="input-group">
+          <input type=number min=1 max=60 class="form-control" id="duration" value=10>
+          <div class="input-group-addon">minutes</div>
+        </div></div>
+      </div>
+    </form>
+    <a class="btn btn-success btn-block" id="start">...</a>
+    <script src="index.js"></script>
+  </body>
+</html>
