@@ -1,0 +1,42 @@
+body {
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+}
+
+#answer {
+  font-size: 100px;
+}
+
+.bullet-col {
+  max-width: 450px;
+  margin: auto;
+  text-align: left;
+}
+
+.bullet-col p {
+  margin: 3em 0;
+}
+
+.bullet-col p > small {
+  display: block;
+  font-style: italic;
+}
+
+.bullet-col p:nth-child(odd) {
+  text-align: right;
+}
+
+.bullet-col p i.fa {
+  font-size: 3em;
+  margin: 10px 0.5em;
+}
+
+.bullet-col p:nth-child(even) i.fa {
+  float: left;
+}
+
+
+.bullet-col p:nth-child(odd) i.fa {
+  float: right;
+}

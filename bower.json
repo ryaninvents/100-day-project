@@ -21,6 +21,7 @@
     "d3": "~3.5.5",
     "bacon": "~0.7.53",
     "pouchdb": "~3.4.0",
-    "bootswatch": "thomaspark/bootswatch#~3.3.4+1"
+    "bootswatch": "thomaspark/bootswatch#~3.3.4+1",
+    "moment": "~2.10.2"
   }
 }
