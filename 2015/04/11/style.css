@@ -1,0 +1,67 @@
+body {
+  text-align: center;
+}
+.resistor {
+  background-color: #fce0c8;
+  width: 200px;
+  height: 50px;
+  border-radius: 15px;
+  display: inline-block;
+  position: relative;
+}
+
+.resistor:before {
+  z-index: -10;
+  background-color: gray;
+  width: 400px;
+  height: 10px;
+  top: 20px;
+  left: -100px;
+  content: '';
+  position: absolute;
+}
+
+.resistor .band {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15px;
+}
+
+.resistor .band:nth-child(1) {
+  left: 30px;
+}
+
+.resistor .band:nth-child(2) {
+  left: 60px;
+}
+
+.resistor .band:nth-child(3) {
+  left: 90px;
+}
+
+.resistor .band:nth-child(4) {
+  left: 150px;
+}
+
+#codes td {
+  width: 100px;
+  height: 2em;
+}
+
+#codes td.selected{
+  box-shadow: 0px 0px 1px 4px black;
+  border-radius: 3px;
+}
+
+#codes td[data-select-for] {
+  cursor: pointer;
+}
+
+#codes {
+  display: inline-block;
+  margin: auto;
+  border-spacing: 10px;
+  border-collapse: separate;
+}
