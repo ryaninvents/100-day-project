@@ -72,9 +72,7 @@ window.$(function () {
           name: '16 oz',
           caffeine: 140
         }
-        }
       ]
-    }
     }
   ]).map(function(item){
     var meta = {
