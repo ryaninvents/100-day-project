@@ -9,7 +9,7 @@ $.fn.mkCoffeeChart = function(opts){
 
   var range = Bacon.interval(10000).merge(Bacon.once()).map(function(){
     var now = +new Date();
-    var PAST = 60*60e3; // show 1 hr of the past
+    var PAST = 3*60*60e3; // show 3 hrs of the past
     var FUTURE = 6*60*60e3; // show 6 hrs of the future
     var INTERVAL = 2*60e3; // every 2 mins
     return _.range(now-PAST, now+FUTURE, INTERVAL);
