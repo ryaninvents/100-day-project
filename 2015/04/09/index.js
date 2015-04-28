@@ -62,7 +62,7 @@ window.$(function () {
     },
     {
       name: 'energy drink',
-      id: 'a7f6f97d-11d0-49df-a387-553ce9c3e173',
+      _id: 'a7f6f97d-11d0-49df-a387-553ce9c3e173',
       sizes: [
         {
           name: '8.4 oz',
