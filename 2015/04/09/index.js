@@ -59,6 +59,22 @@ window.$(function () {
           caffeine: 64*2
         }
       ]
+    },
+    {
+      name: 'energy drink',
+      id: 'a7f6f97d-11d0-49df-a387-553ce9c3e173',
+      sizes: [
+        {
+          name: '8.4 oz',
+          caffeine: 80
+        },
+        {
+          name: '16 oz',
+          caffeine: 140
+        }
+        }
+      ]
+    }
     }
   ]).map(function(item){
     var meta = {
