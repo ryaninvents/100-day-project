@@ -24,10 +24,11 @@ function calcCaffeine(input) {
       return Math.exp((k1 + k2) * (t - u)) / (k1 + k2)
            - Math.exp(k1 * (t - u)) / k1;
     }
-    debugger;
+    
+    var end = Math.max(input.start, Math.min(t, input.end));
 
     return A / (M * L) * (
-      inBrackets(input.end) - inBrackets(input.start)
+      inBrackets(end) - inBrackets(input.start)
     );
   };
 }
