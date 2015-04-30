@@ -2,7 +2,7 @@
 function calcCaffeine(input) {
 
   // Half-life of caffeine in the body
-  var λ = 5 * 60 * 60000;
+  var λ = 3.5 * 60 * 60000;
 
   // Absorption coefficient
   var α = 1 * 60 * 60000;
