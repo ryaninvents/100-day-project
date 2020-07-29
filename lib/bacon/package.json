@@ -52,7 +52,7 @@
     "grunt-shell": "^1.1.2",
     "jasmine-node": "^1.14.5",
     "jsstana": "^0.1.5",
-    "lodash": "^3.3.1",
+    "lodash": "^4.17.19",
     "mocha": "^2.1.0",
     "shelljs": "^0.3",
     "sinon": "^1.12.2",
