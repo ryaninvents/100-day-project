@@ -50,7 +50,7 @@
     "pouchdb-server": "^0.6.1",
     "express-pouchdb": "^0.13.0",
     "commander": "~2.1.0",
-    "uglify-js": "~2.4.6",
+    "uglify-js": "~3.10.0",
     "jshint": "~2.5.10",
     "pouchdb-http-proxy": "~0.10.3",
     "corsproxy": "~0.2.13",
